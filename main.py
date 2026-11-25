@@ -49,6 +49,15 @@ def main() -> None:
     # trailing or doubled spaces.
     assert ENTRY == ENTRY.strip(), "entry must not start or end with whitespace"
     assert "  " not in ENTRY, "entry must not contain doubled spaces"
+    # One-sentence discipline (the brief: "write one sentence, at most
+    # 200 characters"): a second sentence would show as a sentence
+    # terminator followed by a space and a capital letter.
+    import re
+
+    assert not re.search(r"[.!?]\s+[A-Z]", ENTRY), (
+        "entry must be a single sentence"
+    )
+    assert ENTRY.endswith("."), "entry must end with a full stop"
     assert ENTRY.encode("utf-8").decode("utf-8") == ENTRY
     directory = os.path.dirname(OUTPUT_PATH)
     if directory:
